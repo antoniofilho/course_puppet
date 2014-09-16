@@ -1,7 +1,3 @@
-node 'vagrant.example.org' {
-  file {
-    '/home/vagrant/test':
-      ensure  => present,
-			content => 'x' 
-  }
+node 'vagrant-centos65.vagrantup.com' {
+  include zabbix_agent
 }
