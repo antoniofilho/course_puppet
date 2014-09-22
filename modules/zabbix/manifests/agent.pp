@@ -18,7 +18,7 @@ class zabbix::agent {
 
   service {
     'zabbix-agent':
-      ensure  => running,
-      require => File['/etc/zabbix/zabbix_agentd.conf']
+      ensure    => running,
+      require   => File['/etc/zabbix/zabbix_agentd.conf'],
   }
 }
