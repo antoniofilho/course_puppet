@@ -1,15 +1,10 @@
-class zabbix_agent {
-  yumrepo {
-    'zabbix':
-      baseurl  => "http://repo.zabbix.com/zabbix/2.2/rhel/${operatingsystemmajrelease}/${architecture}/",
-      enabled  => 1,
-      gpgcheck => 0
-  }
+class zabbix::agent {
+  include repositories::zabbix
 
   package {
     'zabbix-agent':
       ensure  =>  "2.2.5-1.el${operatingsystemmajrelease}",
-      require => Yumrepo['zabbix']
+      require => Class['repositories::zabbix']
   }
 
   file {
@@ -17,7 +12,7 @@ class zabbix_agent {
       ensure  => present,
       owner   => 'root',
       group   => 'root',
-      source  => 'puppet:///modules/zabbix_agent/zabbix_agentd.conf',
+      source  => 'puppet:///modules/zabbix/zabbix_agentd.conf',
       require => Package['zabbix-agent']
   }
 

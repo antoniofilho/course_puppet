@@ -1,21 +1,16 @@
-class zabbix_server {
-  yumrepo {
-    'zabbix':
-      baseurl  => "http://repo.zabbix.com/zabbix/2.2/rhel/${operatingsystemmajrelease}/${architecture}/",
-      enabled  => 1,
-      gpgcheck => 0
-  }
+class zabbix::server {
+  include repositories::zabbix
 
   package {
     'zabbix-server':
       ensure  =>  "2.2.5-1.el${operatingsystemmajrelease}",
-      require => Yumrepo['zabbix']
+      require => Class['repositories::zabbix']
   }
 
   package {
     'zabbix-web':
       ensure  =>  "2.2.5-1.el${operatingsystemmajrelease}",
-      require => Yumrepo['zabbix']
+      require => Class['repositories::zabbix']
   }
 
   file {
@@ -23,7 +18,7 @@ class zabbix_server {
       ensure  => present,
       owner   => 'root',
       group   => 'root',
-      source  => 'puppet:///modules/zabbix_server/zabbix_server.conf',
+      source  => 'puppet:///modules/zabbix/zabbix_server.conf',
       require => Package['zabbix-server']
   }
 
